@@ -6,31 +6,26 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class SimpleArray<T> implements Iterable<T> {
-    Object[] objects;
-    int index = 0;
+    private Object[] objects;
+    private int index = 0;
 
     public SimpleArray(int arraySize) {
         this.objects = new Object[arraySize];
     }
 
-    //add(T model) - добавляет указанный элемент (model) в первую свободную ячейку.
     public void add(T value) {
         this.objects[index++] = value;
     }
 
-    //get(int index) - возвращает элемент, расположенный по указанному индексу.
     public T get(int position) {
         return (T) this.objects[position];
     }
 
-    //set(int index, T model) - заменяет указанным элементом (model) элемент, находящийся по индексу index.
     public void set(int index, T model) {
         objects[index] = model;
     }
 
-    //remove(int index) - удаляет элемент по указанному индексу,
-    // все находящиеся справа элементы при этом необходимо сдвинуть на единицу влево
-    // (в середине массива не должно быть пустых ячеек).
+
     public void remove(int index) {
         if (objects.length - 1 - index >= 0) {
             System.arraycopy(objects, index + 1, objects, index, objects.length - 1 - index);
