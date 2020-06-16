@@ -8,7 +8,7 @@ public class Converter {
         return new Iterator<Integer>() {
             private final Iterator<Iterator<Integer>> inputIt = it;
             private Iterator<Integer> positionIterator;
-            boolean validHasNext = isValidHasNext();
+            private boolean validHasNext = isValidHasNext();
 
             @Override
             public boolean hasNext() {
@@ -18,9 +18,6 @@ public class Converter {
                 return validHasNext;
             }
 
-            //берётся очередной итератор.
-//выдаёт:  true, если взятый итератор не пустой.
-//        false, если больше нет итераторов.
             private boolean isValidHasNext() {
                 boolean result = false;
                 while (inputIt.hasNext()) {

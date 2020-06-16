@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+@SuppressWarnings("checkstyle:EmptyLineSeparator")
 public class SimpleArray<T> implements Iterable<T> {
     private Object[] objects;
     private int index = 0;
@@ -24,7 +25,6 @@ public class SimpleArray<T> implements Iterable<T> {
     public void set(int index, T model) {
         objects[index] = model;
     }
-
 
     public void remove(int index) {
         if (objects.length - 1 - index >= 0) {

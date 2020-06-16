@@ -7,7 +7,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class SimpleArrayTest {
-    SimpleArray<String> simpleArray = new SimpleArray<>(3);
+    private SimpleArray<String> simpleArray = new SimpleArray<>(3);
 
     @Before
     public void before() {

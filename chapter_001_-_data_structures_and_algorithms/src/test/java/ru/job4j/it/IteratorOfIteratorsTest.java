@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class IteratorOfIteratorsTest {
 
-    Iterator<Integer> it;
+    private Iterator<Integer> it;
 
     @Before
     public void setUp() {
