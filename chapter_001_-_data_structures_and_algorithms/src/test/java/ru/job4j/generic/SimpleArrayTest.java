@@ -23,8 +23,7 @@ public class SimpleArrayTest {
     @Test
     public void add() {
 
-        assertThat(simpleArray.toString(), is("SimpleArray [test1, test2, test3, null, null, "
-                + "null, null, null, null, null, null, null, null]"));
+        assertThat(simpleArray.toString(), is("SimpleArray [test1, test2, test3]"));
     }
 
     @Test
@@ -41,8 +40,7 @@ public class SimpleArrayTest {
     @Test
     public void remove() {
         simpleArray.remove(1);
-        assertThat(simpleArray.toString(), is("SimpleArray [test1, test3, null, null, null, "
-                + "null, null, null, null, null, null, null, null]"));
+        assertThat(simpleArray.toString(), is("SimpleArray [test1, test3, null]"));
     }
 
     @Test

@@ -16,7 +16,7 @@ public class SimpleArray<T> implements Iterable<T> {
     }
 
     public void add(T value) {
-        if (position + 1 == objects.length) {
+        if (position == objects.length) {
             objects = Arrays.copyOf(objects, objects.length + 10);
         }
         this.objects[position++] = value;
@@ -71,16 +71,12 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             private final Object[] array = objects;
-            private int position = 0;
+            private int index = 0;
             private int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
-                boolean result = false;
-                if (position < array.length && array[position] != null) {
-                    result = true;
-                }
-                return result;
+                return index < position;
             }
 
             @Override
@@ -91,7 +87,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return (T) array[position++];
+                return (T) array[index++];
             }
         };
     }
