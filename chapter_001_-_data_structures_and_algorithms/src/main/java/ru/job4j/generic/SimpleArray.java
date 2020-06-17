@@ -1,35 +1,45 @@
 package ru.job4j.generic;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
-@SuppressWarnings("checkstyle:EmptyLineSeparator")
 public class SimpleArray<T> implements Iterable<T> {
     private Object[] objects;
-    private int index = 0;
+    private int position = 0;
+    private int modCount = 0;
+
+    public SimpleArray() {
+        this.objects = new Object[10];
+    }
 
     public SimpleArray(int arraySize) {
         this.objects = new Object[arraySize];
     }
 
     public void add(T value) {
-        this.objects[index++] = value;
+        if (position + 1 == objects.length) {
+            objects = Arrays.copyOf(objects, objects.length + 10);
+        }
+        this.objects[position++] = value;
+        modCount++;
     }
 
-    public T get(int position) {
-        return (T) this.objects[position];
+    public T get(int index) {
+        Objects.checkIndex(index, position);
+        return (T) this.objects[index];
     }
 
     public void set(int index, T model) {
+        Objects.checkIndex(index, position);
         objects[index] = model;
+        modCount++;
     }
 
     public void remove(int index) {
+        Objects.checkIndex(index, position);
         if (objects.length - 1 - index >= 0) {
             System.arraycopy(objects, index + 1, objects, index, objects.length - 1 - index);
             objects[objects.length - 1] = null;
+            modCount++;
         }
     }
 
@@ -47,28 +57,27 @@ public class SimpleArray<T> implements Iterable<T> {
             return false;
         }
         SimpleArray<?> that = (SimpleArray<?>) o;
-        return index == that.index && Arrays.equals(objects, that.objects);
+        return position == that.position && Arrays.equals(objects, that.objects);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(index);
+        int result = Objects.hash(position);
         result = 31 * result + Arrays.hashCode(objects);
         return result;
     }
 
     @Override
     public Iterator<T> iterator() {
-        Object[] array = objects;
         return new Iterator<>() {
-
-            private final Object[] objects = array;
+            private final Object[] array = objects;
             private int position = 0;
+            private int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
                 boolean result = false;
-                if (position < objects.length && objects[position] != null) {
+                if (position < array.length && array[position] != null) {
                     result = true;
                 }
                 return result;
@@ -76,10 +85,13 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return (T) objects[position++];
+                return (T) array[position++];
             }
         };
     }
