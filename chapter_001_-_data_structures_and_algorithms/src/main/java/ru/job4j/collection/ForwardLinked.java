@@ -20,20 +20,29 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     public T deleteFirst() {
-        Node<T> headNode = head;
-        if (!isEmptyOrOneNode()) {
-            head = headNode.next;
-            headNode.next = null;
+        checkHeadForEmpty();
+        T firstElement = head.value;
+        if (isOnlyNode()) {
+            deleteOnlyElement();
+        } else {
+            Node<T> firstNode = head;
+            head = head.next;
+            firstNode.next = null;
         }
-        return headNode.value;
+        return firstElement;
     }
 
     public T deleteLast() {
-        Node<T> lastNode = head;
-        if (!isEmptyOrOneNode()) {
+        checkHeadForEmpty();
+        T lastElement;
+        if (isOnlyNode()) {
+            lastElement = deleteOnlyElement();
+        } else {
+            Node<T> lastNode = head;
             while (lastNode.next != null) {
                 lastNode = lastNode.next;
             }
+            lastElement = lastNode.value;
             Node<T> penultimateNode = head;
             if (penultimateNode.next != null) {
                 while (!penultimateNode.next.equals(lastNode)) {
@@ -42,18 +51,23 @@ public class ForwardLinked<T> implements Iterable<T> {
             }
             penultimateNode.next = null;
         }
-        return lastNode.value;
+        return lastElement;
     }
 
-    private boolean isEmptyOrOneNode() {
-        boolean result = false;
+    private void checkHeadForEmpty() {
         if (head == null) {
             throw new NoSuchElementException();
-        } else if (head.next == null) {
-            head = null;
-            result = true;
         }
-        return result;
+    }
+
+    private T deleteOnlyElement() {
+        Node<T> onlyElement = head;
+        head = null;
+        return onlyElement.value;
+    }
+
+    private boolean isOnlyNode() {
+        return head.next == null;
     }
 
     @Override
