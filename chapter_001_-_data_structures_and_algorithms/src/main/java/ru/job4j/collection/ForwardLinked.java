@@ -47,16 +47,12 @@ public class ForwardLinked<T> implements Iterable<T> {
     public void revert() {
         checkHeadForEmpty();
         Node<T> newHead = foundLastNode();
-        int iteration = nodesCounter - 1;
-        while (iteration > 0) {
-            Node<T> penultimateIterationNode = head;
-            Node<T> lastIterationNode = penultimateIterationNode.next;
-            for (int nodePosition = 1; nodePosition < iteration; nodePosition++) {
-                penultimateIterationNode = penultimateIterationNode.next;
-                lastIterationNode = penultimateIterationNode.next;
-            }
-            lastIterationNode.next = penultimateIterationNode;
-            iteration--;
+        Node<T> oneNode = head;
+        Node<T> twoNode;
+            for (int i = 0; i < nodesCounter - 1; i++) {
+            twoNode = oneNode.next;
+            twoNode.next = oneNode;
+            oneNode = twoNode;
         }
         head.next = null;
         head = newHead;
