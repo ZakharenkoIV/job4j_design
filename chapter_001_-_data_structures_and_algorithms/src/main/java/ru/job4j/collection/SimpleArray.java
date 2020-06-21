@@ -43,6 +43,20 @@ public class SimpleArray<T> implements Iterable<T> {
         }
     }
 
+    boolean contains(T model) {
+        boolean result = false;
+        if (position != 0) {
+            for (Object o : objects) {
+                T m = (T) o;
+                if (m != null && m.equals(model)) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
         return "SimpleArray " + Arrays.toString(objects);
