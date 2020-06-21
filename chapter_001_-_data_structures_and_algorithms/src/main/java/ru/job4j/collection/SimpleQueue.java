@@ -9,8 +9,12 @@ public class SimpleQueue<T> {
         for (int i = 0; i < counter; i++) {
             out.push(in.pop());
         }
-        counter = 0;
-        return out.pop();
+        counter--;
+        T result = out.pop();
+        for (int i = 0; i < counter; i++) {
+            in.push(out.pop());
+        }
+        return result;
     }
 
     public void push(T value) {
