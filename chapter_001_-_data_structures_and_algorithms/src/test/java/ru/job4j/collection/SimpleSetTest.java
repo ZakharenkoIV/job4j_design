@@ -35,4 +35,15 @@ public class SimpleSetTest {
         assertThat(set, is(result));
     }
 
+    @Test
+    public void whenAddNollElement() {
+        set.add(null);
+        SimpleSet<String> result = new SimpleSet<>();
+        result.add("a");
+        result.add("b");
+        result.add("c");
+        result.add(null);
+        assertThat(set, is(result));
+    }
+
 }

@@ -48,7 +48,7 @@ public class SimpleArray<T> implements Iterable<T> {
         if (position != 0) {
             for (Object o : objects) {
                 T m = (T) o;
-                if (m != null && m.equals(model)) {
+                if (Objects.equals(m, model)) {
                     result = true;
                     break;
                 }
