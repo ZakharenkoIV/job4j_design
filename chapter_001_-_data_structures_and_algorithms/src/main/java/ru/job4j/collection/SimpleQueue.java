@@ -6,19 +6,21 @@ public class SimpleQueue<T> {
     private int counter = 0;
 
     public T poll() {
-        for (int i = 0; i < counter; i++) {
-            out.push(in.pop());
-        }
-        counter--;
+        stackShift(out, in);
         T result = out.pop();
-        for (int i = 0; i < counter; i++) {
-            in.push(out.pop());
-        }
+        counter--;
+        stackShift(in, out);
         return result;
     }
 
     public void push(T value) {
         in.push(value);
         counter++;
+    }
+
+    private void stackShift(SimpleStack<T> in, SimpleStack<T> out) {
+        for (int i = 0; i < counter; i++) {
+            in.push(out.pop());
+        }
     }
 }
