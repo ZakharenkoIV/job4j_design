@@ -7,7 +7,6 @@ public class SimpleQueue<T> {
     private int outCounter = 0;
 
     public T poll() {
-        assert outCounter >= 0 : "outCounter < 0";
         if (outCounter == 0) {
             for (int i = 0; i < inCounter; i++) {
                 out.push(in.pop());
