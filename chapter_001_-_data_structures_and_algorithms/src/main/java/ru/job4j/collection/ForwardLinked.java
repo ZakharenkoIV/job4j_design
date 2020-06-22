@@ -46,7 +46,6 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     public void revert() {
         checkHeadForEmpty();
-        Node<T> newHead = foundLastNode();
         Node<T> oneNode = head;
         Node<T> twoNode;
             for (int i = 0; i < nodesCounter - 1; i++) {
@@ -55,7 +54,7 @@ public class ForwardLinked<T> implements Iterable<T> {
             oneNode = twoNode;
         }
         head.next = null;
-        head = newHead;
+        head = oneNode;
     }
 
     private Node<T> foundLastNode() {
