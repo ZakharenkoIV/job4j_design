@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
+    private static final double LOAD_FACTOR = 0.75;
+
     private Node<K, V>[] table;
     private int size = 0;
     private int capacity = 1 << 4;
@@ -29,13 +31,18 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
     }
 
     V get(K key) {
-        return table[toCountIndexForNode(key)].value;
+        V result = null;
+        int index = toCountIndexForNode(key);
+        if (table[index] != null && table[index].key.equals(key)) {
+            result = table[toCountIndexForNode(key)].value;
+        }
+        return result;
     }
 
     boolean delete(K key) {
         boolean result = false;
         int index = toCountIndexForNode(key);
-        if (table[index] != null) {
+        if (table[index] != null && table[index].key.equals(key)) {
             table[index] = null;
             size--;
             modCount++;
@@ -90,7 +97,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
     }
 
     private void checkLoadFactor() {
-        if ((double) size / (double) capacity > 0.75) {
+        if ((double) size / (double) capacity > LOAD_FACTOR) {
             capacity = capacity << 1;
             Node<K, V>[] newTable = (Node<K, V>[]) new Node[capacity];
             for (Node<K, V> node : table) {
@@ -104,6 +111,6 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
 
     private int toCountIndexForNode(K key) {
         int hash = key.hashCode() ^ (key.hashCode() >>> 16);
-        return hash % table.length;
+        return (table.length - 1) & hash;
     }
 }
