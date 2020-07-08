@@ -33,14 +33,17 @@ class Tree<E> implements SimpleTree<E> {
     }
 
     private Optional<Node<E>> foundNode(Predicate<Node<E>> predicate) {
+        Optional<Node<E>> result = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
-        ArrayList<Node<E>> list = new ArrayList<>();
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            list.add(el);
+            if (predicate.test(el)) {
+                result = Optional.of(el);
+                break;
+            }
             data.addAll(el.children);
         }
-        return list.stream().filter(predicate).findFirst();
+        return result;
     }
 }
