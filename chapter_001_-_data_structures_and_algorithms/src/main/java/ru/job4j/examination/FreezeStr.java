@@ -4,9 +4,25 @@ import java.util.HashMap;
 
 public class FreezeStr {
     public static boolean eq(String left, String right) {
-        HashMap<Character, Integer> leftMap = fillMapWithCharArray(left.toCharArray());
-        HashMap<Character, Integer> rightMap = fillMapWithCharArray(right.toCharArray());
-        return leftMap.equals(rightMap);
+        boolean result = true;
+        if (left.length() != right.length()) {
+            result = false;
+        } else {
+            HashMap<Character, Integer> leftMap = fillMapWithCharArray(left.toCharArray());
+            for (char c : right.toCharArray()) {
+                if (leftMap.containsKey(c)) {
+                    leftMap.put(c, leftMap.get(c) - 1);
+                    if (leftMap.get(c) < 0) {
+                        result = false;
+                        break;
+                    }
+                } else {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     private static HashMap<Character, Integer> fillMapWithCharArray(char[] charArray) {
