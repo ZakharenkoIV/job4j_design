@@ -24,7 +24,9 @@ public class Config {
         String[] lines = out.toString().split(System.lineSeparator());
         for (String line : lines) {
             String[] q = line.split("=");
-            values.put(q[0], q[1]);
+            if (q.length == 2) {
+                values.put(q[0], q[1]);
+            }
         }
     }
 
