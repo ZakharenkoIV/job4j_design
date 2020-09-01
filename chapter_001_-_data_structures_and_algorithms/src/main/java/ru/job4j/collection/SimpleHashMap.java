@@ -12,6 +12,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
     private int capacity = 1 << 4;
     private int modCount = 0;
 
+    @SuppressWarnings("unchecked")
     public SimpleHashMap() {
         this.table = (Node<K, V>[]) new Node[capacity];
     }
@@ -96,6 +97,7 @@ public class SimpleHashMap<K, V> implements Iterable<SimpleHashMap.Node<K, V>> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void checkLoadFactor() {
         if ((double) size / (double) capacity > LOAD_FACTOR) {
             capacity = capacity << 1;

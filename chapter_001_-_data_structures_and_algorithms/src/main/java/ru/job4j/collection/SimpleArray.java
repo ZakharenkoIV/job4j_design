@@ -23,6 +23,7 @@ public class SimpleArray<T> implements Iterable<T> {
         modCount++;
     }
 
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         Objects.checkIndex(index, position);
         return (T) this.objects[index];
@@ -43,6 +44,7 @@ public class SimpleArray<T> implements Iterable<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     boolean contains(T model) {
         boolean result = false;
         if (position != 0) {
@@ -81,6 +83,7 @@ public class SimpleArray<T> implements Iterable<T> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Iterator<T> iterator() {
         return new Iterator<>() {
