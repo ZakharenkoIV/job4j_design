@@ -14,8 +14,8 @@ public class AnalyzeTest {
 
     @Test
     public void whenPairWithoutComment() {
-        String source = "C:\\Projects\\job4j_design\\source.txt";
-        String target = "C:\\Projects\\job4j_design\\unavailable.csv";
+        String source = "./src/main/resources/source.txt";
+        String target = "./src/main/resources/unavailable.csv";
         Analyze analyze = new Analyze();
         analyze.unavailable(source, target);
         StringJoiner in = new StringJoiner(System.lineSeparator());
