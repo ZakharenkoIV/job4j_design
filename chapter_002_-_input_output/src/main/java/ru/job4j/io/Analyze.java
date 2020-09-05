@@ -41,6 +41,7 @@ public class Analyze {
 
     public static void main(String[] args) {
         Analyze analyze = new Analyze();
-        analyze.unavailable("source.txt", "unavailable.csv");
+        analyze.unavailable("./chapter_002_-_input_output/src/main/resources/source.txt",
+                "./chapter_002_-_input_output/src/main/resources/unavailable.csv");
     }
 }
