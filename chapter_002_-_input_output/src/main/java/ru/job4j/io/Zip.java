@@ -1,6 +1,9 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -18,11 +21,12 @@ public class Zip {
     }
 
     public void packFiles(List<File> sources, File target) throws IOException {
-        for (File file : sources) {
+        List<File> preparedResource = findSourceExceptThoseExcluded(sources, exclude);
+        for (File file : preparedResource) {
             if (file.isDirectory()) {
                 List<File> files = Arrays.asList(Objects.requireNonNull(
                         file.listFiles(f -> !f.getName().toLowerCase().endsWith(exclude))));
-                new Zip(exclude).packFiles(files, target);
+                new Zip().packFiles(files, target);
                 System.out.println("Добавление директории <" + file.getName() + ">");
                 continue;
             }
@@ -42,6 +46,24 @@ public class Zip {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private List<File> findSourceExceptThoseExcluded(List<File> sources, String exclude)
+            throws IOException {
+        List<File> result = new ArrayList<>();
+        for (File file : sources) {
+            if (file.isDirectory()) {
+                SearchFiles searchFiles = new SearchFiles(
+                        p -> !p.toFile().getName().endsWith(exclude));
+                Files.walkFileTree(file.toPath(), searchFiles);
+                for (Path path : searchFiles.getPaths()) {
+                    result.add(path.toFile());
+                }
+            } else if (!file.getName().endsWith(exclude)) {
+                result.add(file);
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) throws IOException {
