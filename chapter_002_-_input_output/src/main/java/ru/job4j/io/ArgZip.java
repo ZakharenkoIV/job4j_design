@@ -9,10 +9,13 @@ public class ArgZip {
 
     public ArgZip(String[] args) {
         this.args = args;
+        this.valid();
     }
 
-    public boolean valid() {
-        return args.length == 6;
+    public void valid() {
+        if (args.length != 6) {
+            throw new IllegalStateException("incorrect program arguments");
+        }
     }
 
     public String directory() {

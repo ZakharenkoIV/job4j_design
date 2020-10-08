@@ -4,34 +4,36 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip {
-    private String exclude;
+    private ArgZip argZip;
 
     Zip() {
     }
 
-    Zip(String exclude) {
-        this.exclude = exclude;
+    Zip(ArgZip argZip) {
+        this.argZip = argZip;
     }
 
-    public void packFiles(List<File> sources, File target) throws IOException {
-        List<File> preparedResource = findSourceExceptThoseExcluded(sources, exclude);
-        for (File file : preparedResource) {
-            if (file.isDirectory()) {
-                List<File> files = Arrays.asList(Objects.requireNonNull(
-                        file.listFiles(f -> !f.getName().toLowerCase().endsWith(exclude))));
-                new Zip().packFiles(files, target);
-                System.out.println("Добавление директории <" + file.getName() + ">");
-                continue;
-            }
+    public void packFiles(List<File> sources, File target) {
+        for (File file : sources) {
             packSingleFile(file, target);
             System.out.println("Добавление файла <" + file.getName() + ">");
+        }
+    }
+
+    public void packFilesExceptThoseExcluded() {
+        List<File> files = new ArrayList<>();
+        try {
+            for (Path path : findSourceExceptThoseExcluded(new File(argZip.directory()))) {
+                files.add(path.toFile());
+            }
+            packFiles(files, new File(argZip.output()));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -48,40 +50,19 @@ public class Zip {
         }
     }
 
-    private List<File> findSourceExceptThoseExcluded(List<File> sources, String exclude)
+    public List<Path> findSourceExceptThoseExcluded(File directory)
             throws IOException {
-        List<File> result = new ArrayList<>();
-        for (File file : sources) {
-            if (file.isDirectory()) {
-                SearchFiles searchFiles = new SearchFiles(
-                        p -> !p.toFile().getName().endsWith(exclude));
-                Files.walkFileTree(file.toPath(), searchFiles);
-                for (Path path : searchFiles.getPaths()) {
-                    result.add(path.toFile());
-                }
-            } else if (!file.getName().endsWith(exclude)) {
-                result.add(file);
-            }
-        }
-        return result;
+        SearchFiles searchFiles = new SearchFiles(
+                p -> !p.toFile().getName().endsWith(argZip.exclude()));
+        Files.walkFileTree(directory.toPath(), searchFiles);
+        return searchFiles.getPaths();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Zip().packSingleFile(
                 new File("./chapter_002_-_input_output/pom.xml"),
                 new File("./chapter_002_-_input_output/pom.zip")
         );
-
-        ArgZip argZip = new ArgZip(args);
-        if (argZip.valid()) {
-            File directory = new File(argZip.directory());
-            String exclude = argZip.exclude();
-            File output = new File(argZip.output());
-            List<File> files = Arrays.asList(Objects.requireNonNull(
-                    directory.listFiles(f -> !f.getName().toLowerCase().endsWith(exclude))));
-            new Zip(exclude).packFiles(files, output);
-        } else {
-            System.out.println("incorrect parameters");
-        }
+        new Zip(new ArgZip(args)).packFilesExceptThoseExcluded();
     }
 }
