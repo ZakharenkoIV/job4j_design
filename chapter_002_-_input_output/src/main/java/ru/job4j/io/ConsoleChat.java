@@ -16,19 +16,29 @@ public class ConsoleChat {
     private String continueWord = "продолжить";
     private String exitWord = "закончить";
     private boolean continueDialogue = true;
+    private final List<String> botText = new ArrayList<>();
+    private final List<String> logText = new ArrayList<>();
+
+    ConsoleChat() {
+        try (BufferedReader in = new BufferedReader(new FileReader("consoleChatBotWords.txt"))) {
+            in.lines().forEach(botText::add);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void work() {
-        writeToLog("Запуск программы"
+        logText.add("-------------------"
+                + System.lineSeparator()
+                + "Запуск программы"
                 + System.lineSeparator()
                 + ZonedDateTime.now().toString()
-                + System.lineSeparator()
-                + "-------------------"
                 + System.lineSeparator());
         Scanner in = new Scanner(System.in);
         String quotationEntered;
         do {
             quotationEntered = in.nextLine();
-            writeToLog("Пользователь: " + quotationEntered + System.lineSeparator());
+            logText.add("Пользователь: " + quotationEntered);
             if (!quotationEntered.equals(exitWord)) {
                 if (quotationEntered.equals(stopWord)) {
                     continueDialogue = false;
@@ -39,33 +49,26 @@ public class ConsoleChat {
                 if (continueDialogue) {
                     String randomResponse = getRandomResponse();
                     System.out.println("Бот: " + randomResponse);
-                    writeToLog("Бот: " + randomResponse + System.lineSeparator());
+                    logText.add("Бот: " + randomResponse);
                 }
             }
         } while (!quotationEntered.equals(exitWord));
+        writeToLog(logText);
     }
 
-    private void writeToLog(String string) {
+    private void writeToLog(List<String> logText) {
         try {
             File consoleChatLog = new File("consoleChatLog.txt");
             consoleChatLog.createNewFile();
             Files.write(Paths.get("consoleChatLog.txt"),
-                    string.getBytes(), StandardOpenOption.APPEND);
+                    logText, StandardOpenOption.APPEND);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private String getRandomResponse() {
-        String result = null;
-        try (BufferedReader in = new BufferedReader(new FileReader("consoleChatBotWords.txt"))) {
-            List<String> lines = new ArrayList<>();
-            in.lines().forEach(lines::add);
-            result = lines.get((int) (Math.random() * lines.size()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
+        return botText.get((int) (Math.random() * botText.size()));
     }
 
     public static void main(String[] args) {
