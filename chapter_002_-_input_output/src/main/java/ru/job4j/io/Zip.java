@@ -28,7 +28,8 @@ public class Zip {
     public void packFilesExceptThoseExcluded() {
         List<File> files = new ArrayList<>();
         try {
-            for (Path path : findSourceExceptThoseExcluded(new File(argZip.directory()))) {
+            List<Path> paths = findSourceExceptThoseExcluded(new File(argZip.directory()));
+            for (Path path : paths) {
                 files.add(path.toFile());
             }
             packFiles(files, new File(argZip.output()));
