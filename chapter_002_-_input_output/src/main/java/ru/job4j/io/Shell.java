@@ -1,23 +1,26 @@
 package ru.job4j.io;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 public class Shell {
-    private Path path1 = Paths.get("/");
+    private String modPath = "";
 
     public void cd(String path) {
         if (path.startsWith("/")) {
-            path1 = Paths.get(path);
+            modPath = path;
         } else {
-            path1 = path1.resolve(path);
+            modPath = modPath.concat("/").concat(path);
         }
-        if (path1.endsWith("..")) {
-            path1 = path1.getParent().getParent();
+        if (modPath.endsWith("..")) {
+            int lastSlash = modPath.lastIndexOf("/");
+            int penultimateSlash = modPath.lastIndexOf("/", lastSlash - 1);
+            modPath = modPath.substring(0, penultimateSlash);
+
+        }
+        if (modPath.isEmpty()) {
+            modPath = "/";
         }
     }
 
     public String pwd() {
-        return path1.toString().replace("\\", "/");
+        return modPath;
     }
 }
