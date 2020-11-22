@@ -1,0 +1,27 @@
+[2020-11-22 16:27:27] Connected to idea_db
+idea_db> create database cars
+[2020-11-22 16:27:27] completed in 398 ms
+[2020-11-22 16:28:11] Disconnected
+[2020-11-22 16:28:11] Connected to cars
+[2020-11-22 16:28:11] completed in 74 ms
+cars> create table cars(
+          id serial primary key,
+          price money,
+          description text,
+          sold boolean
+      )
+[2020-11-22 16:38:22] completed in 33 ms
+cars.public> insert into cars(price, description, sold) values(1000, 'Описание', false)
+[2020-11-22 16:46:49] 1 row affected in 18 ms
+cars.public> select * from cars
+[2020-11-22 16:48:14] 1 row retrieved starting from 1 in 249 ms (execution: 7 ms, fetching: 242 ms)
+cars.public> select * from cars
+[2020-11-22 16:49:03] 1 row retrieved starting from 1 in 15 ms (execution: 5 ms, fetching: 10 ms)
+[2020-11-22 16:50:55] Unsafe query: 'Update' statement without 'where' updates all table rows at once
+cars.public> update cars set description = 'Полное описание'
+[2020-11-22 16:51:48] 1 row affected in 4 ms
+[2020-11-22 16:52:38] Unsafe query: 'Delete' statement without 'where' clears all data in the table
+cars.public> delete from cars
+[2020-11-22 16:52:41] 1 row affected in 3 ms
+cars.public> select * from cars
+[2020-11-22 16:52:55] 0 rows retrieved in 15 ms (execution: 5 ms, fetching: 10 ms)
