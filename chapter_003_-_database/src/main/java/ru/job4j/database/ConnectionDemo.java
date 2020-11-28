@@ -10,9 +10,8 @@ import java.util.Properties;
 
 public class ConnectionDemo {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        try (FileInputStream fileInputStream = new FileInputStream("C:\\"
-                + "Projects\\job4j_design\\chapter_003_-_database\\src\\main\\resources\\"
-                + "app.properties")) {
+        try (FileInputStream fileInputStream = new FileInputStream(
+                "chapter_003_-_database/src/main/resources/app.properties")) {
             Properties property = new Properties();
             property.load(fileInputStream);
             Class.forName("org.postgresql.Driver");
