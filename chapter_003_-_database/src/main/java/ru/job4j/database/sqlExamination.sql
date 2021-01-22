@@ -14,8 +14,8 @@ CREATE TABLE users
 
 CREATE TABLE usersMeetings
 (
-    userId             int          not null,
-    meetingId          int          not null,
+    userId             int          not null references users (id),
+    meetingId          int          not null references meetings (id),
     appointment_status varchar(250) not null
 );
 
