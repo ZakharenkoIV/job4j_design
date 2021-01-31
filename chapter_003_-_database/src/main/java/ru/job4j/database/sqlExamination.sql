@@ -16,20 +16,19 @@ CREATE TABLE usersMeetings
 (
     userId             int          not null references users (id),
     meetingId          int          not null references meetings (id),
-    appointment_status varchar(250) not null
+    appointment_status varchar(250) not null default 'нет ответа'
 );
 
-SELECT all_meeting, quantity_users
-from (select count(*) from usersMeetings) as all_meeting
-         cross join (select count(appointment_status)
-                     from usersMeetings
-                     where appointment_status LIKE 'принял') as quantity_users;
+SELECT all_application, number_of_confirmed_users
+FROM (SELECT count(*) AS all_application
+      from usersMeetings) AS a
+         CROSS JOIN (SELECT count(appointment_status) number_of_confirmed_users
+                     FROM usersMeetings
+                     WHERE appointment_status LIKE 'принял') AS b;
 
-select name
-from meetings
-         right join (select meetingId
-                     from usersMeetings
-                     group by meetingId
-                     having count(appointment_status) filter ( where appointment_status like 'принял') = 0) m
-                    on meetings.id = m.meetingId
-;
+SELECT meetings.name AS meetings_without_applications
+FROM meetings
+         LEFT JOIN (SELECT DISTINCT meetingId
+                    FROM usersMeetings
+                    WHERE appointment_status LIKE 'принял') AS b ON meetings.id = b.meetingId
+WHERE b.meetingId IS NULL;
