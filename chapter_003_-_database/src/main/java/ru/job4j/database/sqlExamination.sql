@@ -19,16 +19,14 @@ CREATE TABLE usersMeetings
     appointment_status varchar(250) not null default 'нет ответа'
 );
 
-SELECT all_application, number_of_confirmed_users
-FROM (SELECT count(*) AS all_application
-      from usersMeetings) AS a
-         CROSS JOIN (SELECT count(appointment_status) number_of_confirmed_users
-                     FROM usersMeetings
-                     WHERE appointment_status LIKE 'принял') AS b;
+SELECT meetings.name, count(*) filter ( where usersMeetings.appointment_status like 'принял')
+FROM meetings
+         LEFT JOIN usersMeetings
+                   ON meetings.id = usersMeetings.meetingId
+group by meetings.name;
 
 SELECT meetings.name AS meetings_without_applications
 FROM meetings
-         LEFT JOIN (SELECT DISTINCT meetingId
-                    FROM usersMeetings
-                    WHERE appointment_status LIKE 'принял') AS b ON meetings.id = b.meetingId
-WHERE b.meetingId IS NULL;
+         LEFT JOIN usersMeetings
+                   ON meetings.id = usersMeetings.meetingId
+WHERE usersMeetings.meetingId IS NULL;
