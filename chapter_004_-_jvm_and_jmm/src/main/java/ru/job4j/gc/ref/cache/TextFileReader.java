@@ -6,16 +6,24 @@ package ru.job4j.gc.ref.cache;
 //        Names.txt, Address.txt - файлы в системе. При запросе по ключу Names.txt - кеш должен
 //        вернуть содержимое файла Names.txt.
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
 
 public class TextFileReader {
     private MyCache cache = new MyCache();
 
-    public String getText(String fileName) throws FileNotFoundException {
-        return cache.getText(fileName).orElseThrow(FileNotFoundException::new);
+    public TextFileReader() throws IOException {
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public String getText(String fileName) throws IOException {
+        return cache.getText(fileName);
+    }
+
+    public void setFilesDirectoryPath(String fileDirectoryPath) throws IOException {
+        cache.changeDirectory(Paths.get(fileDirectoryPath));
+    }
+
+    public static void main(String[] args) throws IOException {
         TextFileReader reader = new TextFileReader();
         String s = reader.getText("Loggc.txt");
         System.out.println(s);
