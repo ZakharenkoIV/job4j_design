@@ -1,30 +1,42 @@
 package ru.job4j.gc.ref.cache;
 
-//        Создать программу эмулирующее поведение данного кеша. Программа должна считывать текстовые файлы из системы
-//        и выдавать текст при запросе имени файла. Если в кеше файла нет. Кеш должен загрузить себе данные.
-//        По умолчанию в кеше нет ни одного файла. Текстовые файл должны лежать в одной директории. Пример.
-//        Names.txt, Address.txt - файлы в системе. При запросе по ключу Names.txt - кеш должен
-//        вернуть содержимое файла Names.txt.
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.nio.file.NotDirectoryException;
 import java.nio.file.Paths;
 
 public class TextFileReader {
     private MyCache cache = new MyCache();
+    private static final Logger LOG = LogManager.getLogger(TextFileReader.class.getName());
 
-    public TextFileReader() throws IOException {
+    public TextFileReader() {
     }
 
-    public String getText(String fileName) throws IOException {
-        return cache.getText(fileName);
+    public String getText(String fileName) {
+        String text = null;
+        try {
+            text = cache.getText(fileName);
+        } catch (FileNotFoundException e) {
+            LOG.debug("File not found", e);
+            System.out.println("Файл ".concat(fileName).concat(" не найден"));
+        }
+        return text;
     }
 
-    public void setFilesDirectoryPath(String fileDirectoryPath) throws IOException {
-        cache.changeDirectory(Paths.get(fileDirectoryPath));
+    public void setFilesDirectoryPath(String fileDirectoryPath) {
+        try {
+            cache.changeDirectory(Paths.get(fileDirectoryPath));
+        } catch (NotDirectoryException e) {
+            LOG.debug("Directory not found", e);
+            System.out.println("Директория не найдена");
+        }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         TextFileReader reader = new TextFileReader();
+        reader.setFilesDirectoryPath("chapter_004_-_jvm_and_jmm/src/main/resources1");
         String s = reader.getText("Loggc.txt");
         System.out.println(s);
     }

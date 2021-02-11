@@ -17,13 +17,16 @@ public class GCDemo {
     }
 
     public static void main(String[] args) {
+        long time = System.currentTimeMillis();
         info();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1_000_000; i++) {
             System.out.println("Add " + i);
             new User(i, "N" + i);
         }
-        //  System.gc();
+          //System.gc();
 
         info();
+        System.out.println("=============================================================");
+        System.out.println(System.currentTimeMillis() - time + "ms");
     }
 }
