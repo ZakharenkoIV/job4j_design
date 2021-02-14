@@ -8,12 +8,11 @@ import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
 
-
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G"})
 public class BenchmarkArticleTest {
-    public static String s =
+    public static String firstText =
             "Мой дядя самых честных правил, "
                     + "Когда не в шутку занемог, "
                     + "Он уважать себя заставил "
@@ -28,26 +27,26 @@ public class BenchmarkArticleTest {
                     + "Печально подносить лекарство, "
                     + "Вздыхать и думать про себя: "
                     + "Когда же черт возьмет тебя!";
-    public static String ss = "Мой дядя мог думать про Linux и Java день и ночь";
+    public static String secondText = "Мой дядя мог думать про Linux и Java день и ночь";
 
     @Benchmark
     public void usingArrays() {
-        Article.generateUsingArrays(s, ss);
+        Article.generateUsingArrays(firstText, secondText);
     }
 
     @Benchmark
     public void usingLambda() {
-        Article.generateUsingLambda(s, ss);
+        Article.generateUsingLambda(firstText, secondText);
     }
 
     @Benchmark
     public void usingMap() {
-        Article.generateUsingMap(s, ss);
+        Article.generateUsingMap(firstText, secondText);
     }
 
     @Benchmark
     public void usingSet() {
-        Article.generateUsingSet(s, ss);
+        Article.generateUsingSet(firstText, secondText);
     }
 
     public static void main(String[] args) throws RunnerException {
