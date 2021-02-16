@@ -2,9 +2,7 @@ package ru.job4j.tdd;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -32,6 +30,33 @@ public class CinemaTest {
         assertThat(purchasedTicket, is(java.util.Optional.empty()));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void buyTicketWithWrongDate() throws IllegalArgumentException {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2010, 10, 10, 23, 00);
+        cinema.buy(account, 1, 1, date);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void buyTicketWithWrongPlace() throws IllegalArgumentException {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+        cinema.buy(account, 0, 0, date);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void buyTicketWithWrongAccount() throws IllegalArgumentException {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+        cinema.buy(account, 0, 0, date);
+    }
+
     @Test
     public void findAllSessionsWherePredicateIsTrue() {
         Cinema cinema = new Cinema3D();
@@ -46,14 +71,6 @@ public class CinemaTest {
         cinema.add(new Session3D());
         List<Session> sessions = cinema.find(session -> false);
         assertThat(sessions, is(Arrays.asList()));
-    }
-
-    @Test
-    public void find() {
-        Cinema cinema = new Cinema3D();
-        cinema.add(new Session3D());
-        List<Session> sessions = cinema.find(session -> true);
-        assertThat(sessions, is(Arrays.asList(new Session3D())));
     }
 
     @Test
@@ -74,4 +91,6 @@ public class CinemaTest {
         List<Session> sessions = cinema.find(session -> true);
         assertThat(sessions, is(Arrays.asList(existingSession)));
     }
+
+
 }
