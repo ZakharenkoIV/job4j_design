@@ -2,11 +2,11 @@ package ru.job4j.srp;
 
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+public class ReportChangeSalary implements Report {
 
     private Store store;
 
-    public ReportEngine(Store store) {
+    public ReportChangeSalary(Store store) {
         this.store = store;
     }
 
@@ -19,9 +19,13 @@ public class ReportEngine implements Report {
                     .append(employee.getName()).append(";")
                     .append(employee.getHired()).append(";")
                     .append(employee.getFired()).append(";")
-                    .append(employee.getSalary()).append(";");
+                    .append(changeSalary(employee.getSalary())).append(";");
         }
         text.append(System.lineSeparator());
         return text.toString();
+    }
+
+    private String changeSalary(double salary) {
+        return "".concat(Double.valueOf(salary).toString()).concat(" руб.");
     }
 }
