@@ -16,4 +16,9 @@ public class Trash implements Storage {
     public boolean addFood(Food food) {
         return storage.add(food);
     }
+
+    @Override
+    public boolean accept(Food food) {
+        return food.freshness() <= 0;
+    }
 }

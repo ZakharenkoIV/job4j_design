@@ -16,4 +16,18 @@ public class Shop implements Storage {
     public boolean addFood(Food food) {
         return storage.add(food);
     }
+
+    @Override
+    public boolean accept(Food food) {
+        int f = food.freshness();
+        boolean result = false;
+        if (f > 0 && f < 25) {
+            food.setDiscount(5);
+            result = true;
+        }
+        if (f >= 25 && f <= 75) {
+            result = true;
+        }
+        return result;
+    }
 }

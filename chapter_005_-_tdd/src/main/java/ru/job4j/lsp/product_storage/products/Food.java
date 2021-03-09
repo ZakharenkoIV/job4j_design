@@ -56,4 +56,11 @@ public class Food {
     public void setDiscount(int discount) {
         this.discount = discount;
     }
+
+    public int freshness() {
+        int msInDays = 86400000;
+        int shelfLifeDays = (int) ((getExpiryDate().getTime() - getCreateDate().getTime()) / msInDays);
+        int daysPassed = (int) ((System.currentTimeMillis() - getCreateDate().getTime()) / msInDays);
+        return 100 - daysPassed * 100 / shelfLifeDays;
+    }
 }
