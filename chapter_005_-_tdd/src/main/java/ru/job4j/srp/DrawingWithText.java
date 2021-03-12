@@ -6,7 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class drawingWithText implements drawing {
+public class DrawingWithText implements Drawing {
     @Override
     public StringBuilder draw(String s) {
         // SecondExampleOfViolation

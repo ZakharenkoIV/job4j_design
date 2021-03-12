@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class MyCache {
+    private static final Logger LOG = LogManager.getLogger(MyCache.class.getName());
     private Map<String, SoftReference<TextValues>> cache = new HashMap<>();
     private Path fileDirectoryPath;
-    private static final Logger LOG = LogManager.getLogger(MyCache.class.getName());
 
     public MyCache() {
         fileDirectoryPath = Paths.get("chapter_004_-_jvm_and_jmm/src/main/resources");
@@ -104,11 +104,15 @@ public class MyCache {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
             TextValues that = (TextValues) o;
-            return lastModifiedTime == that.lastModifiedTime &&
-                    Objects.equals(text, that.text);
+            return lastModifiedTime == that.lastModifiedTime
+                    && Objects.equals(text, that.text);
         }
 
         @Override

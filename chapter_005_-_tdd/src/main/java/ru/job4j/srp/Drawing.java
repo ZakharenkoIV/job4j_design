@@ -1,7 +1,6 @@
 package ru.job4j.srp;
 
-
-public interface drawing {
+public interface Drawing {
     public StringBuilder draw(String s);
 
     // FirstExampleOfViolation

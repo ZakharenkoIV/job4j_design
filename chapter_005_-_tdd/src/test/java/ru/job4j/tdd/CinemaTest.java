@@ -91,6 +91,4 @@ public class CinemaTest {
         List<Session> sessions = cinema.find(session -> true);
         assertThat(sessions, is(Arrays.asList(existingSession)));
     }
-
-
 }

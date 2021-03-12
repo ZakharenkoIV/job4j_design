@@ -8,8 +8,8 @@ import java.nio.file.NotDirectoryException;
 import java.nio.file.Paths;
 
 public class TextFileReader {
-    private MyCache cache = new MyCache();
     private static final Logger LOG = LogManager.getLogger(TextFileReader.class.getName());
+    private MyCache cache = new MyCache();
 
     public TextFileReader() {
     }
