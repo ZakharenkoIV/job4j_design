@@ -1,4 +1,4 @@
-package ru.job4j.lsp.product_storage.products;
+package ru.job4j.lsp.storage.products;
 
 import javax.xml.crypto.Data;
 

@@ -1,10 +1,10 @@
-package ru.job4j.lsp.product_storage;
+package ru.job4j.lsp.storage;
 
-import ru.job4j.lsp.product_storage.products.Food;
-import ru.job4j.lsp.product_storage.storages.Shop;
-import ru.job4j.lsp.product_storage.storages.Storage;
-import ru.job4j.lsp.product_storage.storages.Trash;
-import ru.job4j.lsp.product_storage.storages.Warehouse;
+import ru.job4j.lsp.storage.products.Food;
+import ru.job4j.lsp.storage.storages.Shop;
+import ru.job4j.lsp.storage.storages.Storage;
+import ru.job4j.lsp.storage.storages.Trash;
+import ru.job4j.lsp.storage.storages.Warehouse;
 
 import java.util.ArrayList;
 import java.util.List;
