@@ -2,11 +2,11 @@ package ru.job4j.lsp.parking;
 
 import java.util.Objects;
 
-public class Truck implements Car {
+public class PassengerCar implements Car {
     private int size;
     private String number;
 
-    public Truck(int size, String number) {
+    public PassengerCar(int size, String number) {
         this.size = size;
         this.number = number;
     }
@@ -28,8 +28,8 @@ public class Truck implements Car {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Truck truck = (Truck) o;
-        return size == truck.size && Objects.equals(number, truck.number);
+        PassengerCar that = (PassengerCar) o;
+        return size == that.size && Objects.equals(number, that.number);
     }
 
     @Override
