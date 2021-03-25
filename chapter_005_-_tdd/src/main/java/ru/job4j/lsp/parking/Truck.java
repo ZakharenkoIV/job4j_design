@@ -16,6 +16,7 @@ public class Truck implements Car {
         return this.size;
     }
 
+    @Override
     public String getNumber() {
         return this.number;
     }

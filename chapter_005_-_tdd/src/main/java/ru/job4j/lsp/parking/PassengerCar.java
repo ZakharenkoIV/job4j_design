@@ -6,8 +6,8 @@ public class PassengerCar implements Car {
     private int size;
     private String number;
 
-    public PassengerCar(int size, String number) {
-        this.size = size;
+    public PassengerCar(String number) {
+        this.size = 1;
         this.number = number;
     }
 
@@ -16,6 +16,7 @@ public class PassengerCar implements Car {
         return this.size;
     }
 
+    @Override
     public String getNumber() {
         return this.number;
     }
