@@ -2,8 +2,12 @@ package ru.job4j.lsp.storage.storages;
 
 import ru.job4j.lsp.storage.products.Food;
 
-public interface Storage {
-    public boolean addFood(Food food);
+import java.util.List;
 
-    public boolean accept(Food food);
+public interface Storage {
+    List<Food> getFoods();
+
+    boolean addFood(Food food);
+
+    boolean accept(Food food);
 }

@@ -13,6 +13,11 @@ public class Warehouse implements Storage {
     }
 
     @Override
+    public List<Food> getFoods() {
+        return storage;
+    }
+
+    @Override
     public boolean addFood(Food food) {
         return storage.add(food);
     }
