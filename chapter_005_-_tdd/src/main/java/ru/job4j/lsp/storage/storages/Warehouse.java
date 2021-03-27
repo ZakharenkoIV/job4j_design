@@ -26,4 +26,11 @@ public class Warehouse implements Storage {
     public boolean accept(Food food) {
         return food.freshness() > 75;
     }
+
+    @Override
+    public List<Food> clean() {
+        List<Food> foodsList = storage;
+        storage.clear();
+        return foodsList;
+    }
 }

@@ -35,4 +35,11 @@ public class Shop implements Storage {
         }
         return result;
     }
+
+    @Override
+    public List<Food> clean() {
+        List<Food> foodsList = storage;
+        storage.clear();
+        return foodsList;
+    }
 }

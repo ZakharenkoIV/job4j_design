@@ -4,6 +4,9 @@ import ru.job4j.lsp.storage.products.Food;
 import ru.job4j.lsp.storage.storages.Storage;
 import ru.job4j.lsp.storage.storages.StoresList;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ControlQuality {
     private StoresList list;
 
@@ -23,10 +26,16 @@ public class ControlQuality {
     }
 
     private void resort() {
-        for (Storage storage : list.getStorageList()) {
-            for (Food food : storage.getFoods()) {
-                distribute(food);
-            }
+        for (Food food : getAllFoods()) {
+            distribute(food);
         }
+    }
+
+    private List<Food> getAllFoods() {
+        List<Food> foodsList = new ArrayList<>();
+        for (Storage storage : list.getStorageList()) {
+            foodsList.addAll(storage.clean());
+        }
+        return foodsList;
     }
 }

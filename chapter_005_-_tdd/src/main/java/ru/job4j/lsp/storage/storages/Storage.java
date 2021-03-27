@@ -10,4 +10,6 @@ public interface Storage {
     boolean addFood(Food food);
 
     boolean accept(Food food);
+
+    List<Food> clean();
 }
