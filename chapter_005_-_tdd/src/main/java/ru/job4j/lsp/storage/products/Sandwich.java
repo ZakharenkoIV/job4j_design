@@ -1,9 +1,9 @@
 package ru.job4j.lsp.storage.products;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class Sandwich extends Food {
-    public Sandwich(String name, Data expiryDate, Data createDate, double price, int discount) {
+    public Sandwich(String name, Date expiryDate, Date createDate, double price, int discount) {
         super(name, expiryDate, createDate, price, discount);
     }
 }
